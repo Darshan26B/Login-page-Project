@@ -92,30 +92,32 @@ class HomepageActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Successful", Toast.LENGTH_LONG)
 
-            binding.YourImage.setOnClickListener {
-                var Select = storage.child("images/${Uri.lastPathSegment}.jpg")
-                var Upload = Select.putFile(Uri)
+            //image storage
 
-                var url = Upload.continueWithTask { task ->
-                    if (!task.isSuccessful) {
-                        task.exception.let {
-                            throw it!!
-                        }
+            var Select = storage.child("images/${Uri.lastPathSegment}.jpg")
+            var Upload = Select.putFile(Uri)
+
+            var url = Upload.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception.let {
+                        throw it!!
                     }
-                    Select.downloadUrl
-                }.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        var downloadUri = task.result
-                        var key1 = ref.root.push().key
-                        ref.root.child("Image").child(key1!!).child("image")
-                            .setValue(downloadUri.toString())
+                }
+                Select.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    var downloadUri = task.result
+                    var key1 = ref.root.push().key
+                    ref.root.child("Image").child(key1!!).child("image")
+                        .setValue(downloadUri.toString())
 
-                    } else {
+                } else {
 
-                    }
                 }
             }
         }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
