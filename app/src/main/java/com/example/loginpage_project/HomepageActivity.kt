@@ -36,8 +36,7 @@ class HomepageActivity : AppCompatActivity() {
 
 
         SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
-        var emailShareP =SharedP.getString("Email","")
-        var PassworrdShareP =SharedP.getString("Password","")
+
 
         binding.YourImage.setOnClickListener {
             if(binding.selectPhoto != null) {

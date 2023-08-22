@@ -26,14 +26,14 @@ class MainActivity : AppCompatActivity() {
 
         Auth = FirebaseAuth.getInstance()
 
-        SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
-        var emailShareP =SharedP.getString("Email","")
-        var PassworrdShareP =SharedP.getString("Password","")
-
-        if (emailShareP != "" && PassworrdShareP != "") {
-            var intent = Intent(this, HomepageActivity::class.java)
-            startActivity(intent)
-        }
+//        SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
+//        var emailShareP =SharedP.getString("Email","")
+//        var PassworrdShareP =SharedP.getString("Password","")
+//
+//        if (emailShareP != "" && PassworrdShareP != "") {
+//            var intent = Intent(this, HomepageActivity::class.java)
+//            startActivity(intent)
+//        }
 
 
         binding.btnSubmit.setOnClickListener {
@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity() {
             SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
 
                 editor = SharedP.edit()
-                editor.putString("Email",Email.toString())
-                editor.putString("Password",Password.toString())
+                editor.putString("Email",Email)
+                editor.putString("Password",Password)
                 editor.apply()
                 editor.commit()
 
