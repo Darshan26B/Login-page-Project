@@ -1,6 +1,8 @@
 package com.example.loginpage_project
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +23,8 @@ class HomepageActivity : AppCompatActivity() {
     lateinit var storage: StorageReference
     lateinit var Uri: Uri
     var Image_Code = 12
+    lateinit var SharedP: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +33,11 @@ class HomepageActivity : AppCompatActivity() {
 
         ref = FirebaseDatabase.getInstance().reference
         storage = FirebaseStorage.getInstance().reference
+
+
+        SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
+        var emailShareP =SharedP.getString("Email","")
+        var PassworrdShareP =SharedP.getString("Password","")
 
         binding.YourImage.setOnClickListener {
             if(binding.selectPhoto != null) {
@@ -90,7 +99,6 @@ class HomepageActivity : AppCompatActivity() {
             )
             ref.root.child("Personal Details").child(Key).setValue(data)
 
-            Toast.makeText(this, "Successful", Toast.LENGTH_LONG)
 
             //image storage
 
@@ -115,6 +123,17 @@ class HomepageActivity : AppCompatActivity() {
 
                 }
             }
+            Toast.makeText(this, "Successful", Toast.LENGTH_LONG)
+
+        }
+        binding.Logout.setOnClickListener {
+            editor = SharedP.edit()
+            editor.clear()
+            editor.commit()
+
+
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
 

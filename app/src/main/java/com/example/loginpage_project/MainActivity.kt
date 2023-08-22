@@ -1,5 +1,6 @@
 package com.example.loginpage_project
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
@@ -25,6 +26,16 @@ class MainActivity : AppCompatActivity() {
 
         Auth = FirebaseAuth.getInstance()
 
+        SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
+        var emailShareP =SharedP.getString("Email","")
+        var PassworrdShareP =SharedP.getString("Password","")
+
+        if (emailShareP != "" && PassworrdShareP != "") {
+            var intent = Intent(this, HomepageActivity::class.java)
+            startActivity(intent)
+        }
+
+
         binding.btnSubmit.setOnClickListener {
             var Email = binding.email.text.toString().trim()
             var Password = binding.password.text.toString().trim()
@@ -37,22 +48,25 @@ class MainActivity : AppCompatActivity() {
                 binding.password.error = "Enter Your Password"
                 return@setOnClickListener
             }
-            SharedP = getSharedPreferences("First Time", MODE_PRIVATE)
-            var Time = SharedP.getBoolean("First Time", true)
+
+            //login page one time show
+
+            SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
+
+                editor = SharedP.edit()
+                editor.putString("Email",Email.toString())
+                editor.putString("Password",Password.toString())
+                editor.apply()
+                editor.commit()
+
+                var intent = Intent(this, HomepageActivity::class.java)
+                startActivity(intent)
+                finish()
+
+
 
             Auth.signInWithEmailAndPassword(Email, Password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    if (Time) {
-
-                        editor = SharedP.edit()
-                        editor.putBoolean("First Time", false)
-                        editor.commit()
-                    } else {
-                        var intent = Intent(this, HomepageActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-
                     Toast.makeText(this, "Successful", Toast.LENGTH_LONG).show()
                 }
             }.addOnFailureListener {
