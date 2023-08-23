@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var SharedP: SharedPreferences
     lateinit var editor: Editor
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
