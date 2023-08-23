@@ -26,14 +26,14 @@ class MainActivity : AppCompatActivity() {
 
         Auth = FirebaseAuth.getInstance()
 
-//        SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
-//        var emailShareP =SharedP.getString("Email","")
-//        var PassworrdShareP =SharedP.getString("Password","")
-//
-//        if (emailShareP != "" && PassworrdShareP != "") {
-//            var intent = Intent(this, HomepageActivity::class.java)
-//            startActivity(intent)
-//        }
+       SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
+        var emailShareP =SharedP.getString("Email","")
+        var PassworrdShareP =SharedP.getString("Password","")
+
+        if (emailShareP != "" && PassworrdShareP != "") {
+            var intent = Intent(this, HomepageActivity::class.java)
+            startActivity(intent)
+        }
 
 
         binding.btnSubmit.setOnClickListener {
@@ -49,31 +49,31 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            //login page one time show
 
-            SharedP = getSharedPreferences("First Time", Context.MODE_PRIVATE)
-
-                editor = SharedP.edit()
-                editor.putString("Email",Email)
-                editor.putString("Password",Password)
-                editor.apply()
-                editor.commit()
-
-                var intent = Intent(this, HomepageActivity::class.java)
-                startActivity(intent)
-                finish()
 
 
 
             Auth.signInWithEmailAndPassword(Email, Password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(this, "Successful", Toast.LENGTH_LONG).show()
+                    var intent = Intent(this, HomepageActivity::class.java)
+                    startActivity(intent)
                 }
             }.addOnFailureListener {
 
                 Toast.makeText(this, "Failure", Toast.LENGTH_LONG).show()
             }
 
+    //login page one time show
+
+    editor = SharedP.edit()
+    editor.putString("Email",Email)
+    editor.putString("Password",Password)
+    editor.apply()
+    editor.commit()
+
+//    var intent = Intent(this, HomepageActivity::class.java)
+//    startActivity(intent)
 
 
 
