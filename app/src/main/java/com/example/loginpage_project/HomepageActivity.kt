@@ -4,17 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AppCompatActivity
 import com.example.loginpage_project.databinding.HomepageBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.security.Key
 
 class HomepageActivity : AppCompatActivity() {
 
@@ -39,10 +40,10 @@ class HomepageActivity : AppCompatActivity() {
 
 
         binding.YourImage.setOnClickListener {
-            if(binding.selectPhoto != null) {
-                    binding.selectPhoto.visibility=View.INVISIBLE
-            }else {
-                    binding.selectPhoto.visibility=View.VISIBLE
+            if (binding.selectPhoto != null) {
+                binding.selectPhoto.visibility = View.INVISIBLE
+            } else {
+                binding.selectPhoto.visibility = View.VISIBLE
             }
             var intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
@@ -129,6 +130,15 @@ class HomepageActivity : AppCompatActivity() {
             editor = SharedP.edit()
             editor.clear()
             editor.commit()
+
+
+            val googleSignInOptions =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken("17398671441-tecv6pl92l9125er92vsfk8uc8885373.apps.googleusercontent.com")
+                    .requestEmail()
+                    .build()
+            var googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
+            googleSignInClient.signOut()
 
 
             var intent = Intent(this, MainActivity::class.java)
